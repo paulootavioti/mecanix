@@ -1,0 +1,130 @@
+/* Design tokens — Mecanix Cloud
+ *
+ * Valores copiados literalmente das tabelas "Design Tokens" do README.
+ * Nenhum valor aqui foi escolhido: cada um aparece no README e é verificado
+ * pelo teste tests/tokens.test.ts, que relê o README e compara.
+ *
+ * Tokens que o README lista com mais de um valor ("#e6e9ec / #eef0f2 / #f4f6f7")
+ * viram entradas numeradas na ordem em que aparecem.
+ */
+
+@theme {
+  /* ---- Cores: neutros ---- */
+  --color-ink: #16181c;
+  --color-ink-2: #24282e;
+  --color-ink-3: #1c2026;
+  --color-border-dark: #2c3138;
+  --color-page-bg: #eceef0;
+  --color-surface: #ffffff;
+  --color-surface-2: #f7f8f9;
+  --color-surface-3: #e4e7ea;
+  --color-border: #dfe3e7;
+  --color-border-2: #e6e9ec;
+  --color-border-3: #eef0f2;
+  --color-border-4: #f4f6f7;
+  --color-text-muted: #6b747d;
+  --color-text-dim: #79828b;
+  --color-text-faint: #8a939c;
+  --color-text-faint-2: #9aa1a9;
+
+  /* ---- Cores: painel de setor (modo TV) ---- */
+  --color-panel-bg: #0d1014;
+  --color-panel-card: #14181d;
+  --color-panel-card-2: #10151a;
+  --color-panel-border: #22282f;
+  --color-panel-border-2: #1c2228;
+  --color-panel-text-1: #b6bec6;
+  --color-panel-text-2: #8b95a0;
+  --color-panel-text-3: #6f7a85;
+
+  /* ---- Cores: semânticas (oklch, mesma escala de croma/luminosidade) ---- */
+  --color-blue: oklch(0.52 0.13 250);
+  --color-green: oklch(0.48 0.16 145);
+  --color-green-bright: oklch(0.68 0.15 145);
+  --color-amber: oklch(0.62 0.15 75);
+  --color-red: oklch(0.55 0.19 25);
+  --color-teal: oklch(0.55 0.11 200);
+  --color-violet: oklch(0.52 0.14 300);
+  --color-gray: #8a939c;
+
+  /* ---- Tints de status (fundo de chip; o texto usa a cor semântica) ---- */
+  --color-tint-aprovacao: #fdf3e3;
+  --color-tint-execucao: #eaf1fd;
+  --color-tint-peca: #fdecea;
+  --color-tint-pronto: #e8f5ec;
+  --color-tint-entregue: #f2f4f6;
+  --color-tint-azul: #eef4fd;
+  --color-tint-verde: #eef8f1;
+
+  /* ---- Cores de tenant (avatar / white-label) ---- */
+  --color-tenant-1: #16181c;
+  --color-tenant-2: oklch(0.5 0.16 40);
+  --color-tenant-3: oklch(0.5 0.13 250);
+
+  /* ---- Gráfico de barras empilhadas (dashboard) ---- */
+  --color-chart-pecas: oklch(0.58 0.13 250);
+  --color-chart-servicos: oklch(0.6 0.15 145);
+
+  /* ---- Tipografia ---- */
+  --font-sans: 'Archivo', Helvetica, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+
+  /* ---- Espaçamento (escala do README) ---- */
+  --spacing-2: 2px;
+  --spacing-3: 3px;
+  --spacing-5: 5px;
+  --spacing-6: 6px;
+  --spacing-7: 7px;
+  --spacing-9: 9px;
+  --spacing-10: 10px;
+  --spacing-12: 12px;
+  --spacing-13: 13px;
+  --spacing-16: 16px;
+  --spacing-18: 18px;
+  --spacing-20: 20px;
+
+  /* ---- Raio ---- */
+  --radius-chip: 5px;      /* 4–6px  · chips, tags */
+  --radius-control: 8px;   /* 7–9px  · botões, campos */
+  --radius-card: 11px;     /* 10–12px · cards */
+  --radius-panel: 15px;    /* 14–16px · cards do painel, portal */
+  --radius-pill: 20px;
+  --radius-avatar: 100%;
+
+  /* ---- Sombras ---- */
+  --shadow-dropdown: 0 18px 40px -16px rgba(16, 24, 32, 0.35);
+  --shadow-card-hover: 0 8px 18px -12px rgba(16, 24, 32, 0.4);
+  --shadow-toast: 0 18px 40px -16px rgba(0, 0, 0, 0.5);
+  --shadow-panel: 0 30px 60px -30px rgba(9, 12, 15, 0.6);
+  --shadow-drawer: 0 0 60px rgba(0, 0, 0, 0.4);
+}
+
+:root {
+  /* Overlay do drawer off-canvas (tablet e phone). */
+  --overlay-drawer: rgba(12, 15, 18, 0.5);
+
+  /* Placeholder listrado que substitui a foto do veículo. */
+  --placeholder-veiculo: repeating-linear-gradient(135deg, #e7eaed 0 8px, #dde1e5 8px 16px);
+
+  /* Alvos de toque. O valor denso vale só para desktop; em mobile e tablet
+   * qualquer controle usa --touch-mobile. */
+  --touch-dense: 38px;
+  --touch-mobile: 44px;
+  --touch-mobile-max: 46px;
+
+  /* Transições */
+  --transition-drawer: transform 0.2s ease;
+}
+
+/* Entrada de blocos: opacity 0→1 e translateY 6px→0 em 0.14–0.18s ease-out. */
+@keyframes riseIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  @keyframes riseIn {
+    from { opacity: 1; transform: none; }
+    to   { opacity: 1; transform: none; }
+  }
+}
