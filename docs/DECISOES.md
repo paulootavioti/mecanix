@@ -35,11 +35,6 @@ NFC-e e NFS-e. NF-e conjugada e de devolução entram na Intermediária.
 ## Pendentes — a decidir na fase que as consome
 Não serão inventadas; o código fica com o valor ausente e o teste falhando.
 
-- **P-001 (Fase 2)** · Fórmula de "margem estimada X%" no carrinho do wizard (§6).
-- **P-002 (Fase 2)** · Numeração fiscal de nota rejeitada: número é queimado e
-  inutilizado, ou devolvido à faixa? Regra fiscal — não será presumida.
-- **P-003 (Fase 2)** · A etapa "peça" da máquina de estados é obrigatória ou
-  desviável de "execução" direto para "pronto"? (§5 sugere linear; o pátio sugere opcional.)
 - **P-004 (Fase 3)** · Regra do parcelamento "até 3× de R$ X sem juros" (§10):
   sempre 3×, ou há valor mínimo de parcela?
 ## D-005 · Multiempresa — compartilhamento é opt-in, escopo é o CNPJ raiz
@@ -50,3 +45,56 @@ descreve o escopo *depois* de habilitado, não o estado inicial. Sem contradiç�
 **Decisão**: `filiais.compartilha_carteira` desligado por padrão; quando ligado, a carteira
 é visível entre filiais de mesmo CNPJ raiz e permanece isolada entre CNPJs distintos.
   "só quando o próprio tenant habilitar" e também que "o padrão é compartilhar entre
+
+## D-006 · A etapa "peça" da OS é opcional
+
+**Decisão**: a etapa de peças não é obrigatória para finalizar uma OS. De
+"execução" a OS pode ir para "peça" (quando falta componente) **ou** direto
+para "pronto". Quando não há peça, a lista de itens do tipo peça fica vazia e
+o subtotal de peças é R$ 0,00 — a OS registra apenas os serviços prestados.
+
+Transições válidas:
+
+| De | Para |
+|---|---|
+| `aprovacao` | `execucao` |
+| `execucao` | `peca` **ou** `pronto` |
+| `peca` | `pronto` |
+| `pronto` | `entregue` |
+| `entregue` | — (terminal) |
+
+**Consequência de UI ainda aberta (P-006)**: o README (§5) descreve um botão
+*único* de avanço, cujo rótulo em "execução" é "Solicitar peça faltante". Com
+a etapa opcional, "execução" passa a ter duas saídas, e o README não dá a copy
+da segunda. O botão principal mantém o rótulo do README; a ação alternativa
+fica como ação secundária, com a copy pendente.
+
+## D-007 · Margem estimada = lucro bruto sobre o preço de venda
+
+**Fórmula**: `margem % = (preço de venda total − custo total) ÷ preço de venda total × 100`
+
+- **Preço de venda total**: soma cobrada por peças e serviços, já com descontos.
+- **Custo total**: custo de aquisição das peças (custo médio do estoque) +
+  custo/hora da mão de obra multiplicado pelo tempo do serviço.
+
+O custo/hora é R$ 148,00, valor que vem do próprio README (§3 e §6).
+
+Exemplo de conferência: venda R$ 500,00 e custo R$ 300,00 → margem 40%.
+
+## D-008 · Numeração fiscal após rejeição da SEFAZ
+
+Uma nota rejeitada não é gravada como autorizada na SEFAZ, mas o número
+já reservado fica pendente de resolução. Três regras, nesta ordem:
+
+1. **Reenvio com correção** — o número **não** é descartado de imediato.
+   Corrige-se o XML (NCM, CST, CPF, endereço) e reenvia-se **com o mesmo
+   número e série**.
+2. **Inutilização** — se o erro não puder ser corrigido na mesma nota e a
+   emissão for abandonada, o número fica vago e quebra a sequência. É
+   obrigatório enviar pedido de Inutilização de Numeração à SEFAZ, para não
+   caracterizar omissão de receita.
+3. **Sem reuso** — número inutilizado **nunca** volta a ser usado.
+
+Modelagem: `documentos_fiscais.situacao` cobre o ciclo
+`reservado → rejeitado → (reenviado | abandonado) → inutilizado`, e a
+numeração inutilizada é registrada para impedir reemissão.

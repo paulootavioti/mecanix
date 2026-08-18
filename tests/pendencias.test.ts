@@ -15,6 +15,7 @@
  */
 import { describe, it, expect } from 'vitest';
 import { PENDENTE_DESIGN, TENANTS, PECAS, SERVICOS, KITS, TOTAL_USUARIOS } from '../db/seed-dados.ts';
+import { pendenciasDeCopy } from '../src/lib/copy-pendente.ts';
 
 function pendentes(): string[] {
   const achados: string[] = [];
@@ -31,6 +32,14 @@ describe('conteúdo pendente do pacote de design', () => {
   it('nenhum seed usa placeholder', () => {
     expect(pendentes(),
       'preencher db/seed-dados.ts com o conteúdo real dos protótipos').toEqual([]);
+  });
+
+  it('nenhum texto de interface está com copy provisória', () => {
+    // O README descreve estes textos ("emite toast explicativo") mas não os
+    // transcreve. Ficam isolados em src/lib/copy-pendente.ts até virem
+    // revisados, em vez de serem inventados aqui.
+    expect(pendenciasDeCopy(),
+      'confirmar a copy em src/lib/copy-pendente.ts').toEqual([]);
   });
 });
 
