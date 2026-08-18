@@ -137,7 +137,9 @@ Derivado de `README.md`. Cada item é verificável. `[T]` = coberto por teste au
 - [ ] Acréscimos: `<title>`, meta description, Open Graph, JSON-LD de produto/preço, consentimento de cookies (LGPD), analytics, `/politica-de-privacidade`.
 
 ## Planos e limites
-- [ ] Iniciante R$ 249: 5 usuários · 1 CNPJ · 20 GB · 300 OS/mês. `[T]`
+- [ ] Iniciante R$ 249: 5 usuários · 1 CNPJ · 20 GB · 300 OS/mês; **sem NF-e** (só NFC-e/NFS-e). `[T]`
 - [ ] Intermediária R$ 589: 15 usuários · 2 CNPJs · 50 GB · 1.500 OS/mês. `[T]`
-- [ ] Profissional R$ 1.290: usuários ilimitados · CNPJs ilimitados · OS ilimitadas. `[T]`
+- [ ] Profissional R$ 1.290: usuários ilimitados · CNPJs ilimitados · 100 GB · OS ilimitadas. `[T]`
+- [ ] Os quatro perfis (gerente, financeiro, consultor, técnico) existem em todos os planos. `[T]`
+- [ ] Matriz de funcionalidades segue a coluna "Destaques" do README. `[T]`
 - [ ] Exceder usuários, CNPJs, armazenamento ou OS/mês bloqueia a operação. `[T]`

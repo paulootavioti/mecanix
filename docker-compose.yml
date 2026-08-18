@@ -1,0 +1,22 @@
+# PostgreSQL 14 — versão fixada pelo ambiente de destino.
+# Não subir para 15/16: o código evita deliberadamente construções que só
+# existem a partir do 15 (ver docs/PLANO.md, "Compatibilidade PostgreSQL 14").
+services:
+  db:
+    image: postgres:14
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: mecanix
+    ports:
+      - '5432:5432'
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  pgdata:
