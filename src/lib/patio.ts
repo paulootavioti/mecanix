@@ -6,7 +6,7 @@
  * esquecer o filtro, o resultado é vazio, não vazamento.
  */
 import { comTenant } from '../db/client.ts';
-import type { StatusOS } from './os-estado.ts';
+import type { StatusOS } from './os-status.ts';
 
 export interface CartaoOS {
   id: string;

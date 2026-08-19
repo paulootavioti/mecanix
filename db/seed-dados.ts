@@ -103,3 +103,20 @@ export const SERVICOS: ItemCatalogo[] = [
 export const KITS: ItemCatalogo[] = [
   { codigo: 'KT-001', nome: `${PENDENTE_DESIGN} · kit 1`, precoCentavos: 68000 },
 ];
+
+/**
+ * Checklist de entrada — o §5 fala em 6 itens com contador "3/6", mas não
+ * transcreve os textos. PENDENTE_DESIGN, como o restante do conteúdo que
+ * estava nos protótipos.
+ */
+export const CHECKLIST_ENTRADA: string[] = [
+  `${PENDENTE_DESIGN} · item 1`,
+  `${PENDENTE_DESIGN} · item 2`,
+  `${PENDENTE_DESIGN} · item 3`,
+  `${PENDENTE_DESIGN} · item 4`,
+  `${PENDENTE_DESIGN} · item 5`,
+  `${PENDENTE_DESIGN} · item 6`,
+];
+
+/** O README mostra o contador em "3/6": três marcados. */
+export const CHECKLIST_MARCADOS = 3;

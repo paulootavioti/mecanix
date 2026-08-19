@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { redirect, notFound } from 'next/navigation';
 import { usuarioAtual, acessoAoTenant } from '../../../../lib/sessao.ts';
 import { cartoesDoPatio, kpisDoPatio, type CartaoOS } from '../../../../lib/patio.ts';
-import { STATUS, ROTULO_STATUS, COR_STATUS, type StatusOS } from '../../../../lib/os-estado.ts';
+import { STATUS, ROTULO_STATUS, COR_STATUS, type StatusOS } from '../../../../lib/os-status.ts';
 import { reais, reaisCurto, dataHora } from '../../../../lib/formato.ts';
 import estilos from '../../../../styles/patio.module.css';
 
