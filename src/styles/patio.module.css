@@ -1,0 +1,104 @@
+/* Tela 4 — Pátio & ordens de serviço. Valores do §4 do README. */
+
+.cabecalho { display: flex; flex-wrap: wrap; align-items: baseline; gap: 9px; margin-bottom: 13px; }
+.titulo { font-size: 19px; font-weight: 700; letter-spacing: -0.5px; margin: 0; }
+.subtitulo { font-size: 12px; color: var(--color-text-muted); }
+
+/* KPIs: auto-fit sem JavaScript, largura mínima 148px (§ Responsividade). */
+.kpis {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(148px, 1fr));
+  gap: 9px;
+  margin-bottom: 16px;
+}
+
+.kpi {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  padding: 12px 13px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.kpiRotulo {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color: var(--color-text-dim);
+}
+
+.kpiValor { font-size: 19px; font-weight: 700; letter-spacing: -0.5px; }
+.kpiSublinha { font-size: 11px; color: var(--color-text-muted); }
+
+/* Kanban: 5 colunas com auto-fit, mínimo 196px. */
+.kanban {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(196px, 1fr));
+  gap: 9px;
+  align-items: start;
+}
+
+.coluna {
+  background: var(--color-surface-3);
+  border-radius: 11px;
+  padding: 9px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.colunaCabecalho { display: flex; align-items: center; gap: 6px; padding: 0 2px; }
+.colunaPonto { width: 7px; height: 7px; border-radius: var(--radius-avatar); flex: none; }
+.colunaNome { font-size: 11px; font-weight: 700; flex: 1; }
+.colunaContagem { font-family: var(--font-mono); font-size: 10px; color: var(--color-text-muted); }
+
+.cartao {
+  display: block;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 9px;
+  padding: 9px;
+  transition: border-color 0.14s ease, box-shadow 0.14s ease;
+}
+
+.cartao:hover {
+  border-color: var(--color-ink);
+  box-shadow: var(--shadow-card-hover);
+}
+
+.cartaoTopo { display: flex; align-items: center; justify-content: space-between; gap: 6px; }
+
+.chipPlaca {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  background: var(--color-tint-entregue);
+  border-radius: var(--radius-chip);
+  padding: 2px 6px;
+}
+
+.numeroOS { font-family: var(--font-mono); font-size: 9.5px; color: var(--color-text-faint); }
+
+.cartaoVeiculo { font-size: 11.5px; font-weight: 600; margin-top: 6px; }
+.cartaoCliente { font-size: 10.5px; color: var(--color-text-muted); }
+
+/* Rodapé empilhado: o README pede column com gap 3px. */
+.cartaoRodape { display: flex; flex-direction: column; gap: 3px; margin-top: 7px; }
+.cartaoTotal { font-family: var(--font-mono); font-size: 12px; font-weight: 600; }
+.cartaoPrazo { font-size: 9.5px; font-weight: 700; }
+
+.vazia {
+  border: 1px dashed #cfd5da;
+  border-radius: 9px;
+  padding: 13px 9px;
+  text-align: center;
+  font-size: 10.5px;
+  color: var(--color-text-faint);
+}
+
+/* Alvo de toque de 44px no cartão em mobile e tablet. */
+@media (max-width: 1079px) {
+  .cartao { min-height: var(--touch-mobile); }
+}

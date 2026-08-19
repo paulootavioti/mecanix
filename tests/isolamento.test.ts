@@ -13,11 +13,13 @@ let t1: string;
 let t2: string;
 
 beforeAll(async () => {
+  // Escolhidos por slug, não por ordem: qualquer tenant criado por outra
+  // suíte deslocaria uma seleção posicional.
   const { rows } = await semTenant((db) =>
-    db.query<{ id: string; slug: string }>('SELECT id, slug FROM tenants ORDER BY slug'));
-  expect(rows.length).toBeGreaterThanOrEqual(2);
-  t1 = rows[0].id;
-  t2 = rows[1].id;
+    db.query<{ id: string; slug: string }>(
+      "SELECT id, slug FROM tenants WHERE slug IN ('vertentes','oficina-dois')"));
+  t1 = rows.find((r) => r.slug === 'vertentes')!.id;
+  t2 = rows.find((r) => r.slug === 'oficina-dois')!.id;
 });
 
 afterAll(async () => { await fecharPool(); });

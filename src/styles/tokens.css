@@ -6,9 +6,16 @@
  *
  * Tokens que o README lista com mais de um valor ("#e6e9ec / #eef0f2 / #f4f6f7")
  * viram entradas numeradas na ordem em que aparecem.
+ *
+ * Por que :root e não o @theme do Tailwind: o @theme sofre tree-shaking — o
+ * Tailwind só emite os tokens que reconhece em classes utilitárias, e aqui os
+ * tokens são consumidos por var() dentro de CSS Modules, que ele não inspeciona.
+ * Na prática 71 dos 75 tokens sumiam do CSS servido, e o único de cor que
+ * sobrava tinha o valor reescrito de oklch(0.52 0.13 250) para oklch(52% .13 250).
+ * Em :root tudo é emitido literalmente, que é o que a fidelidade exige.
  */
 
-@theme {
+:root {
   /* ---- Cores: neutros ---- */
   --color-ink: #16181c;
   --color-ink-2: #24282e;
@@ -97,9 +104,7 @@
   --shadow-toast: 0 18px 40px -16px rgba(0, 0, 0, 0.5);
   --shadow-panel: 0 30px 60px -30px rgba(9, 12, 15, 0.6);
   --shadow-drawer: 0 0 60px rgba(0, 0, 0, 0.4);
-}
 
-:root {
   /* Overlay do drawer off-canvas (tablet e phone). */
   --overlay-drawer: rgba(12, 15, 18, 0.5);
 

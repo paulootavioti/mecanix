@@ -118,3 +118,28 @@ describe('pontos de quebra', () => {
     expect(responsividade).toContain('≥ 1080px');
   });
 });
+
+describe('os tokens sobrevivem à compilação', () => {
+  // Este bloco existe por causa de um bug real: os tokens estavam num bloco
+  // @theme do Tailwind, que sofre tree-shaking. Como são consumidos por var()
+  // dentro de CSS Modules, o Tailwind não os reconhecia como usados e emitia
+  // apenas 4 dos 75 — o resto sumia do CSS servido, e a única cor que passava
+  // tinha o valor reescrito. Os testes acima liam o arquivo-fonte e passavam.
+  it('tokens.css declara os tokens em :root, não em @theme', () => {
+    // Ignora comentários: o cabeçalho do arquivo menciona @theme ao explicar
+    // por que não usá-lo, e isso não é uma diretiva.
+    const semComentarios = css.replace(/\/\*[\s\S]*?\*\//g, '');
+    expect(semComentarios).toContain(':root {');
+    expect(semComentarios, 'tokens em @theme sofrem tree-shaking e somem do CSS servido')
+      .not.toMatch(/@theme\s*\{/);
+  });
+
+  it('todo token declarado está dentro de um bloco :root', () => {
+    // Extrai o conteúdo de todos os blocos :root e confere que a contagem de
+    // declarações bate com o total do arquivo.
+    const declaradas = (css.match(/^\s{2}--[\w-]+:/gm) ?? []).length;
+    const emRoot = [...css.matchAll(/:root\s*\{([^}]*)\}/g)]
+      .reduce((n, m) => n + (m[1].match(/^\s{2}--[\w-]+:/gm) ?? []).length, 0);
+    expect(emRoot).toBe(declaradas);
+  });
+});
