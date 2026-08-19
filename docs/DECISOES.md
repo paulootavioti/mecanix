@@ -98,3 +98,16 @@ já reservado fica pendente de resolução. Três regras, nesta ordem:
 Modelagem: `documentos_fiscais.situacao` cobre o ciclo
 `reservado → rejeitado → (reenviado | abandonado) → inutilizado`, e a
 numeração inutilizada é registrada para impedir reemissão.
+
+## Pendente P-006 (Fase 2) · Cliente vindo de consulta pública ainda não vira cadastro
+
+Quando o CPF/CNPJ não está na carteira da oficina, o wizard cai na consulta
+pública e mostra só dados cadastrais. Hoje o passo 4 exige um cliente **já
+cadastrado neste inquilino** para gerar a OS.
+
+Falta definir: o "Gerar OS" deve criar o cadastro automaticamente a partir dos
+dados públicos, ou exigir passagem explícita por "+ Novo cadastro"? O README
+diz, na nota de Cadastros, que "o registro nasce no tenant atual já com acesso
+ao portal" — o que sugere criação automática —, mas não diz se isso vale para o
+wizard ou só para a tela de Cadastros. Como envolve nascer cliente com acesso
+ao portal, não vou presumir.
