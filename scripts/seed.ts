@@ -11,6 +11,7 @@ import { PLANOS } from '../src/lib/planos.ts';
 import { gerarHash } from '../src/lib/senha.ts';
 import {
   TENANTS, DISTRIBUICAO_OS, OS_PRIMEIRA, PECAS, SERVICOS, KITS,
+  CHECKLIST_ENTRADA, CHECKLIST_MARCADOS,
 } from '../db/seed-dados.ts';
 
 const CLIENTE_COMPARTILHADO = '12345678000199';
@@ -150,6 +151,30 @@ async function main() {
         `INSERT INTO os_eventos (tenant_id, os_id, tipo, descricao, quem)
          VALUES ($1,$2,'abertura','OS aberta','Rafael Souza')`,
         [tenant.id, ordem.id]);
+
+      // Itens: duas peças e um serviço por OS, para o rodapé de somas do §5
+      // ter peças, serviços e total separados.
+      await db.query('DELETE FROM os_itens WHERE os_id = $1', [ordem.id]);
+      for (const [n, p] of PECAS.slice(0, 2).entries()) {
+        await db.query(
+          `INSERT INTO os_itens (tenant_id, os_id, tipo, codigo, nome, qtd, unit_centavos)
+           VALUES ($1,$2,'peca',$3,$4,$5,$6)`,
+          [tenant.id, ordem.id, p.codigo, p.nome, n + 1, p.precoCentavos]);
+      }
+      const sv = SERVICOS[0];
+      await db.query(
+        `INSERT INTO os_itens (tenant_id, os_id, tipo, codigo, nome, qtd, unit_centavos)
+         VALUES ($1,$2,'servico',$3,$4,1,$5)`,
+        [tenant.id, ordem.id, sv.codigo, sv.nome, sv.precoCentavos]);
+
+      // Checklist de entrada: 6 itens, 3 marcados (contador "3/6" do §5).
+      await db.query('DELETE FROM checklist_itens WHERE os_id = $1', [ordem.id]);
+      for (const [n, descricao] of CHECKLIST_ENTRADA.entries()) {
+        await db.query(
+          `INSERT INTO checklist_itens (tenant_id, os_id, descricao, marcado, ordem)
+           VALUES ($1,$2,$3,$4,$5)`,
+          [tenant.id, ordem.id, descricao, n < CHECKLIST_MARCADOS, n]);
+      }
     }
 
     await db.query(
