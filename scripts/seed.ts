@@ -8,11 +8,15 @@
  */
 import pg from 'pg';
 import { PLANOS } from '../src/lib/planos.ts';
+import { gerarHash } from '../src/lib/senha.ts';
 import {
   TENANTS, DISTRIBUICAO_OS, OS_PRIMEIRA, PECAS, SERVICOS, KITS,
 } from '../db/seed-dados.ts';
 
 const CLIENTE_COMPARTILHADO = '12345678000199';
+
+/** Senha de desenvolvimento do usuário de seed. Nunca usar fora de dev. */
+const SENHA_DEV = 'mecanix-dev';
 
 async function main() {
   const url = process.env.DATABASE_URL_OWNER;
@@ -50,10 +54,16 @@ async function main() {
   // Rafael Souza é o usuário citado na tela de login ("SESSÃO INICIADA ·
   // RAFAEL SOUZA") e pertence aos três tenants com papéis distintos — é a
   // demonstração de que o login é único e alcança N inquilinos.
+  //
+  // Senha de DESENVOLVIMENTO, documentada em docs/DESENVOLVIMENTO.md. O hash
+  // é gerado de verdade (scrypt) para que o fluxo de login seja o mesmo de
+  // produção — nada de atalho que só funcione no seed.
+  const senhaHash = await gerarHash(SENHA_DEV);
   const { rows: [rafael] } = await db.query<{ id: string }>(
     `INSERT INTO users (email, nome, senha_hash) VALUES ($1,$2,$3)
-     ON CONFLICT (email) DO UPDATE SET nome = EXCLUDED.nome RETURNING id`,
-    ['rafael.souza@exemplo.com.br', 'Rafael Souza', 'seed-sem-senha-real']);
+     ON CONFLICT (email) DO UPDATE SET nome = EXCLUDED.nome, senha_hash = EXCLUDED.senha_hash
+     RETURNING id`,
+    ['rafael.souza@exemplo.com.br', 'Rafael Souza', senhaHash]);
 
   const papeis = ['gerente', 'consultor', 'financeiro'] as const;
   let os = OS_PRIMEIRA;

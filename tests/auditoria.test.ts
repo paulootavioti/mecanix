@@ -8,8 +8,10 @@ let t1: string, t2: string, userId: string, clienteT1: string;
 
 beforeAll(async () => {
   const { rows: tenants } = await semTenant((db) =>
-    db.query<{ id: string }>('SELECT id FROM tenants ORDER BY slug'));
-  t1 = tenants[0].id; t2 = tenants[1].id;
+    db.query<{ id: string; slug: string }>(
+      "SELECT id, slug FROM tenants WHERE slug IN ('vertentes','oficina-dois')"));
+  t1 = tenants.find((r) => r.slug === 'vertentes')!.id;
+  t2 = tenants.find((r) => r.slug === 'oficina-dois')!.id;
   const { rows: users } = await semTenant((db) =>
     db.query<{ id: string }>('SELECT id FROM users LIMIT 1'));
   userId = users[0].id;

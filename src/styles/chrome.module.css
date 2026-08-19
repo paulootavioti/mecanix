@@ -1,0 +1,324 @@
+/* Tela 2 — chrome do app da oficina.
+ *
+ * Toda a responsividade é CSS. O protótipo media window.innerWidth em
+ * JavaScript porque o formato dele não permitia media query; aqui não é o caso.
+ * Pontos de quebra do README: phone < 760px · tablet 760–1079px · desktop ≥ 1080px.
+ */
+
+.moldura { display: flex; min-height: 100dvh; }
+
+/* ---------------------------------------------------------------- sidebar */
+
+.sidebar {
+  width: 226px;
+  flex: none;
+  background: var(--color-ink);
+  display: flex;
+  flex-direction: column;
+  /* Padrão (phone e tablet): gaveta fora da tela. O desktop reverte abaixo. */
+  position: fixed;
+  inset: 0 auto 0 0;
+  z-index: 30;
+  transform: translateX(-100%);
+  transition: var(--transition-drawer);
+  box-shadow: var(--shadow-drawer);
+}
+
+.sidebarAberta { transform: translateX(0); }
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--overlay-drawer);
+  z-index: 20;
+  border: none;
+}
+
+.sidebarCabecalho {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 16px 13px;
+  border-bottom: 1px solid var(--color-border-dark);
+}
+
+.tenantAvatar {
+  width: 27px; height: 27px;
+  border-radius: var(--radius-avatar);
+  flex: none;
+  display: grid; place-items: center;
+  color: #ffffff; font-size: 10px; font-weight: 600;
+}
+
+.tenantNomeSidebar { font-size: 12.5px; font-weight: 600; color: #ffffff; }
+.tenantPlanoSidebar {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+
+.navegacao { display: flex; flex-direction: column; padding: 9px 7px; gap: 2px; flex: 1; }
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-height: var(--touch-dense);
+  padding: 0 10px;
+  border-radius: var(--radius-control);
+  color: var(--color-text-faint);
+  font-size: 12.5px;
+  font-weight: 500;
+  transition: background 0.14s ease, color 0.14s ease;
+}
+
+.item:hover { background: var(--color-ink-2); color: #ffffff; }
+.itemAtivo { background: var(--color-ink-2); color: #ffffff; }
+
+.ponto { width: 5px; height: 5px; border-radius: var(--radius-avatar); flex: none; }
+
+.itemRotulo { flex: 1; min-width: 0; }
+
+.badge {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  color: var(--color-text-muted);
+  flex: none;
+}
+
+.sidebarRodape {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 9px 7px;
+  border-top: 1px solid var(--color-border-dark);
+}
+
+.itemRodape {
+  min-height: var(--touch-dense);
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  border-radius: var(--radius-control);
+  background: var(--color-ink-3);
+  color: var(--color-text-faint);
+  font-size: 11.5px;
+  width: 100%;
+  text-align: left;
+}
+.itemRodape:hover { background: var(--color-ink-2); color: #ffffff; }
+
+/* ----------------------------------------------------------------- header */
+
+.conteudo { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  min-height: 56px;
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 16px;
+}
+
+.hamburguer {
+  width: 38px; height: 38px;
+  flex: none;
+  border-radius: var(--radius-control);
+  border: 1px solid var(--color-border);
+  display: grid; place-items: center;
+  font-size: 14px;
+}
+.hamburguer:hover { border-color: var(--color-ink); }
+
+.chipTenant {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-height: var(--touch-dense);
+  padding: 0 10px;
+  border-radius: var(--radius-control);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  flex: none;
+}
+.chipTenant:hover { border-color: var(--color-ink); }
+
+.chipAvatar {
+  width: 22px; height: 22px;
+  border-radius: var(--radius-avatar);
+  flex: none;
+  display: grid; place-items: center;
+  color: #ffffff; font-size: 9px; font-weight: 600;
+}
+
+.chipNome { font-size: 12px; font-weight: 600; }
+.chipUnidade { font-size: 11px; color: var(--color-text-muted); }
+.chipSeta { font-size: 8px; color: var(--color-text-faint); }
+
+.busca {
+  flex: 1 1 240px;
+  min-width: 0;
+  min-height: var(--touch-dense);
+  padding: 0 12px;
+  border-radius: var(--radius-control);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-2);
+  font-size: 12px;
+}
+.busca:focus { background: var(--color-surface); border-color: var(--color-ink); }
+
+.slug {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--color-text-faint);
+  flex: none;
+}
+
+.ctaOrcamento {
+  min-height: var(--touch-dense);
+  padding: 0 13px;
+  border-radius: var(--radius-control);
+  background: var(--color-ink);
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 600;
+  display: grid;
+  place-items: center;
+  flex: none;
+}
+.ctaOrcamento:hover { opacity: 0.88; }
+
+/* O rótulo curto ("+ Orçam.") só aparece no phone; ambos existem no HTML e a
+   troca é por CSS, sem medir a janela em JavaScript. */
+.ctaCurto { display: none; }
+
+.avatarUsuario {
+  width: 32px; height: 32px;
+  border-radius: var(--radius-avatar);
+  flex: none;
+  display: grid; place-items: center;
+  background: var(--color-surface-3);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+/* -------------------------------------------------- dropdown de tenants */
+
+.envoltorioChip { position: relative; flex: none; }
+
+.dropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  width: 340px;
+  max-width: calc(100vw - 32px);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-dropdown);
+  padding: 7px;
+  z-index: 40;
+}
+
+.opcaoTenant {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  min-height: var(--touch-mobile);
+  padding: 7px 9px;
+  border-radius: var(--radius-control);
+  text-align: left;
+}
+.opcaoTenant:hover { background: var(--color-surface-2); }
+
+.opcaoTextos { display: flex; flex-direction: column; min-width: 0; flex: 1; }
+.opcaoNome { font-size: 12.5px; font-weight: 600; }
+.opcaoUnidade { font-size: 11px; color: var(--color-text-muted); }
+.opcaoPlano {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--color-text-faint);
+  text-transform: uppercase;
+}
+
+.notaDropdown {
+  border-top: 1px solid var(--color-border-2);
+  margin-top: 5px;
+  padding: 9px;
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--color-text-muted);
+}
+
+/* ------------------------------------------------------------------ toast */
+
+.toast {
+  position: fixed;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 90vw;
+  background: var(--color-ink);
+  color: #ffffff;
+  border-radius: 10px;
+  padding: 10px 16px;
+  font-size: 12px;
+  font-weight: 500;
+  box-shadow: var(--shadow-toast);
+  z-index: 50;
+  animation: riseIn 0.16s ease-out both;
+}
+
+.principal { padding: 16px; flex: 1; }
+
+/* ------------------------------------------------------------- phone only */
+
+@media (max-width: 759px) {
+  /* Busca global oculta no phone. */
+  .busca { display: none; }
+  /* Unidade do tenant some do chip. */
+  .chipUnidade { display: none; }
+  /* CTA vira "+ Orçam.". */
+  .ctaCompleto { display: none; }
+  .ctaCurto { display: block; }
+  /* Menu de tenants em 272px. */
+  .dropdown { width: 272px; }
+}
+
+/* ------------------------------------------------------ tablet e phone */
+
+@media (max-width: 1079px) {
+  /* Slug do tenant oculto do tablet para baixo. */
+  .slug { display: none; }
+}
+
+/* ---------------------------------------------------------- desktop only */
+
+@media (min-width: 1080px) {
+  /* A sidebar deixa de ser gaveta e vira coluna fixa. */
+  .sidebar {
+    position: sticky;
+    top: 0;
+    height: 100dvh;
+    transform: none;
+    box-shadow: none;
+    inset: auto;
+  }
+  .hamburguer { display: none; }
+  .overlay { display: none; }
+}
+
+/* Em mobile e tablet qualquer controle sobe para o alvo de toque de 44px. */
+@media (max-width: 1079px) {
+  .item, .itemRodape, .chipTenant, .busca, .ctaOrcamento {
+    min-height: var(--touch-mobile);
+  }
+}
