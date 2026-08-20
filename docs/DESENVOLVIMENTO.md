@@ -63,3 +63,17 @@ no pacote de design.
 
 Os testes rodam contra um Postgres real, nunca contra mock: o que está sendo
 testado é a RLS do banco, e um mock provaria apenas que o mock funciona.
+
+## Testes de ponta a ponta
+
+```sh
+npm run test:e2e
+```
+
+Sobem o build de produção na porta 3120 e dirigem o navegador. Cobrem o que os
+testes de unidade não alcançam: os passos 2 a 4 do wizard renderizam
+condicionalmente no cliente, então só um navegador exercita o fluxo inteiro.
+
+O Chromium vem pré-instalado no ambiente e a versão dele pode não ser a que o
+`@playwright/test` espera. Por isso `playwright.config.ts` aponta o executável
+em vez de baixar; ajuste com `CHROMIUM_PATH` se o caminho for outro.
